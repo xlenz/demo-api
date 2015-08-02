@@ -6,7 +6,9 @@ var db = new Db(pathToDb, {nativeObjectID: true, searchInArray: true});
 
 if (CONFIG.recreateDb) {
   log.info('re-creating db');
-  if (fs.existsSync(pathToDb + '/' + CONFIG.dbCollectionEvents))
+  if (!fs.existsSync(pathToDb)) {
+    fs.mkdirSync(pathToDb);
+  } else if (fs.existsSync(pathToDb + '/' + CONFIG.dbCollectionEvents))
     fs.unlinkSync(pathToDb + '/' + CONFIG.dbCollectionEvents);
 
   var collection = db.collection(CONFIG.dbCollectionEvents);
